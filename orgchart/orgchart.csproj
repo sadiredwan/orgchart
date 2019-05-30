@@ -215,10 +215,12 @@
       <DependentUpon>201903101038467_DbContext-V2.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\company.cs" />
+    <Compile Include="Models\CompanyRole.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\EmployeeUser.cs" />
     <Compile Include="Models\Modules.cs" />
+    <Compile Include="Models\RoleLabel.cs" />
     <Compile Include="Models\RolePermission.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\UserRole.cs" />
