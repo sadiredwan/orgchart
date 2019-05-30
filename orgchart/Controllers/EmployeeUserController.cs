@@ -95,35 +95,40 @@ namespace orgchart.Controllers
             {
 
                 //Check if already exists
-                if (new DBContext().employee_users.ToList().FindAll(x => x.employee_id == euViewModel.VM_EMPLOYEE.id).Count > 0)
+                if (new DBContext().employee_users.ToList().FindAll(x => x.employee_id == euViewModel.VM_EMPLOYEEUSER.employee_id).Count > 0)
                 {
-                    //TO DO: DO NOTHING?
-                }
-                else
-                {
-                    //Add new EmployeeUser
+                    //Delete The EmployeeUser
+                    EmployeeUser existingEmployeeUser = new DBContext().employee_users.ToList().Find(x => x.employee_id == euViewModel.VM_EMPLOYEEUSER.employee_id);
                     using (var contxt = new DBContext())
                     {
-                        //Set Datetime
-                        //EmployeeMdl.created_at = DateTime.Now;
-                        //set comapmny id
-                        //euViewModel.VM_EMPLOYEE.company_id = find_company.id;
-                        //Add New EmployeeUser
-                        EmployeeUser employeeUser = new EmployeeUser
-                        {
-                            employee_id = euViewModel.VM_EMPLOYEEUSER.employee_id,
-                            user_id = euViewModel.VM_EMPLOYEEUSER.user_id
-                        };
-                        contxt.employee_users.Add(employeeUser);
+                        contxt.Entry(existingEmployeeUser).State = EntityState.Deleted;
                         contxt.SaveChanges();
-
                     }
-                    //Set temp data Success registration message
-                    TempData["message"] = Utility.SUCCESS_MESSAGE + "Employee Assigned Successfully";
                 }
+                //Add new EmployeeUser
+                using (var contxt = new DBContext())
+                {
+                    //Set Datetime
+                    //EmployeeMdl.created_at = DateTime.Now;
+                    //set comapmny id
+                    //euViewModel.VM_EMPLOYEE.company_id = find_company.id;
+                    //Add New EmployeeUser
+                    EmployeeUser employeeUser = new EmployeeUser
+                    {
+                        employee_id = euViewModel.VM_EMPLOYEEUSER.employee_id,
+                        user_id = euViewModel.VM_EMPLOYEEUSER.user_id
+                    };
+                    contxt.employee_users.Add(employeeUser);
+                    contxt.SaveChanges();
+
+                }
+                //Set temp data Success registration message
+                TempData["message"] = Utility.SUCCESS_MESSAGE + "Employee Assigned Successfully";
 
                 return RedirectToAction("index");
             }
+
+
             //else
             //{
             //    string errors = errorstate.errors(ModelState);
