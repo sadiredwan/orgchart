@@ -1,0 +1,94 @@
+﻿@model orgchart.Models.EmployeeUserViewModel
+@using orgchart.Models
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "assign";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int id = Convert.ToInt32(User.Identity.GetUserName());
+    User current_user = new DBContext().users.Find(id);
+    String name = current_user.first_name + " " + current_user.last_name;
+    String employeeName = Model.VM_EMPLOYEE.first_name + " " + Model.VM_EMPLOYEE.last_name;
+    int employeeDepartment = Model.VM_EMPLOYEE.department_id;
+    int employeeDesignation = Model.VM_EMPLOYEE.designation_id;
+    company find_company = new DBContext().companies.ToList().Find(x => x.user_id == id);
+    List<User> allUsers = new DBContext().users.ToList();
+}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Employee
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="box box-primary">
+
+                    @{
+                        String message = ViewData["message"].ToString();
+
+                    }
+                    @if (message != "" && message.StartsWith(Utility.FAILED_MESSAGE))
+                    {
+                        message = message.Replace(Utility.FAILED_MESSAGE, "");
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            @Html.Raw(message)
+                        </div>
+                    }
+                    else if (message != "" && message.StartsWith(Utility.SUCCESS_MESSAGE))
+                    {
+                        message = message.Replace(Utility.SUCCESS_MESSAGE, "");
+                        <div class="alert alert-info alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            @Html.Raw(message)
+                        </div>
+                    }
+
+                    <!-- /.box-header -->
+                    <!-- form start -->
+
+                    <div class="form-group">
+                        <label>Employee Name</label>
+                        <p type="text" class="form-control" id="eu_employee_name" name="employeeName" value="@employeeName">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Department</label>
+                        <p type="text" class="form-control" id="eu_employeeDepartment" name="employeeDepartment" value="@employeeDepartment">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Designation</label>
+                        <p type="text" class="form-control" id="eu_employeeDesignation" name="employeeDesignation" value="@employeeDesignation">
+                    </div>
+
+                    
+                    @using (Html.BeginForm("Store", HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString(), FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                    <input type="hidden" value="@Model.VM_EMPLOYEE.id" name="VM_EMPLOYEEUSER.employee_id" />
+                    <div class="form-group">
+                        <label>Select User</label>
+                        <select name="VM_EMPLOYEEUSER.user_id" class="form-control">
+                            @foreach (User user in allUsers)
+                            {
+                                <option value="@user.id">@user.first_name @user.last_name</option>
+                            }
+                        </select>
+                    </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Assign</button>
+                        </div>
+                    }
+
+                </div>
+
+    </section>
+    <!-- /.content -->
+</div>

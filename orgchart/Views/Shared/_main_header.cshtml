@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNet.Identity
+@using orgchart.Models
+
+@{ 
+    int id =Convert.ToInt32( User.Identity.GetUserName());
+    User current_user = new DBContext().users.Find(id);
+    String name = current_user.first_name +" "+current_user.last_name;
+    company find_company = new DBContext().companies.ToList().Find(x => x.user_id == id);
+
+}
+
+<header class="main-header">
+    <!-- Logo -->
+    <a href="index2.html" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>Org</b>Chart</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>Org</b>Chart</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+            @if (Request.IsAuthenticated)
+            {
+                <li>
+
+                    <a href="@Url.Action("logoff", "account")" class="dropdown-toggle"><i class="fa fa-fw fa-power-off"></i> LogOff</a>
+                </li>
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="hidden-xs">@name</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            <p>
+                                @name
+                                <small>@find_company.name</small>
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+            }
+                
+                </ul>
+        </div>
+    </nav>
+</header>

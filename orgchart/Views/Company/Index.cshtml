@@ -1,0 +1,76 @@
+﻿@model orgchart.Models.company
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Company
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+
+            <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="box box-primary">
+                        @{
+                            String message = ViewData["message"].ToString();
+
+                        }
+                        @if (message != "" && message.StartsWith(Utility.FAILED_MESSAGE))
+                        {
+                            message = message.Replace(Utility.FAILED_MESSAGE, "");
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                @Html.Raw(message)
+                            </div>
+                        }
+                        else if (message != "" && message.StartsWith(Utility.SUCCESS_MESSAGE))
+                        {
+                            message = message.Replace(Utility.SUCCESS_MESSAGE, "");
+                            <div class="alert alert-info alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                @Html.Raw(message)
+                            </div>
+                        }
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Update Company</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        @using (Html.BeginForm("Store", HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString(), FormMethod.Post, new { id = "form", data_toggle = "validator", enctype = "multipart/form-data" }))
+                        {
+                            <input type="hidden" value="@Model.id" name="id" />
+                            <input type="hidden" value="@Model.user_id" name="user_id" />
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label>Company Name</label>
+                                    <input type="text" class="form-control" id="company_name" placeholder="company name" name="name" value="@Model.name">
+                                </div>
+
+                            </div>
+                        <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            <div class="col-md-3"></div>
+
+            </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+
+
+

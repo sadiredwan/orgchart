@@ -1,0 +1,87 @@
+﻿        <!-- Left side column. contains the logo and sidebar -->
+
+
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="@{ Html.RenderAction("NaigationActive", "home", new { aName = "index", cName = "home"});}">
+                <a href="@Url.Action("index","home")">
+                    <i class="fa fa-th"></i> <span>Dashboard</span>
+
+                </a>
+            </li>
+            <li class="@{ Html.RenderAction("NaigationActive", "home", new { aName = "index", cName = "company"});}">
+                <a href="@Url.Action("index","company")">
+                    <i class="fa fa-th"></i> <span>Company</span>
+
+                </a>
+            </li>
+
+            <li class="treeview @{ Html.RenderAction("NaigationActive", "home", new { aName = "", cName = "department"});}">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>Department</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@{ Html.RenderAction("NaigationActive", "home", new { aName = "index", cName = "department"});}"><a href="@Url.Action("index","department")"><i class="fa fa-circle-o"></i>Department List</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview @{ Html.RenderAction("NaigationActive", "home", new { aName = "", cName = "user"});}">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>User</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@{ Html.RenderAction("NaigationActive", "home", new { aName = "index", cName = "user"});}"><a href="@Url.Action("index","user")"><i class="fa fa-circle-o"></i>User List</a></li>
+                    <li class="@{ Html.RenderAction("NaigationActive", "home", new { aName = "index", cName = "employeeUser"});}"><a href="@Url.Action("index","employeeUser")"><i class="fa fa-circle-o"></i>Assign Employees</a></li>
+                </ul>
+            </li>
+
+
+            <li class="treeview @{ Html.RenderAction("NaigationActive", "home", new { aName = "", cName = "designation"});}">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>Designation</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@{ Html.RenderAction("NaigationActive", "home", new { aName = "index", cName = "designation"});}"><a href="@Url.Action("index","designation")"><i class="fa fa-circle-o"></i>Designation List</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview  @{ Html.RenderAction("NaigationActive", "home", new { aName = "", cName = "employee"});}">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>Employee</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@{ Html.RenderAction("NaigationActive", "home", new { aName = "index", cName = "employee"});}"><a href="@Url.Action("index","employee")"><i class="fa fa-circle-o"></i>Employee List</a></li>
+                </ul>
+            </li>
+
+            @*<li class="treeview  @{ Html.RenderAction("NaigationActive", "home", new { aName = "", cName = "employeeUser"});}">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>Employee User</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@{ Html.RenderAction("NaigationActive", "home", new { aName = "index", cName = "employeeUser"});}"><a href="@Url.Action("index","employeeUser")"><i class="fa fa-circle-o"></i>Employees</a></li>
+                </ul>
+            </li>*@
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

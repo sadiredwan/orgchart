@@ -1,0 +1,39 @@
+﻿
+@model orgchart.Models.Employee
+
+<div class="row">
+    @{ 
+        string degName = "";
+        if (Model.designation_id > 0)
+        {
+            degName = new DBContext().designations.Find(Model.designation_id).name;
+        }
+    }
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-body box-profile">
+                <img class="profile-user-img img-responsive img-circle" src="@Utility.GetBaseUrl()/@Model.photo" alt="User profile picture">
+
+                <h3 class="profile-username text-center">@Model.first_name @Model.last_name</h3>
+
+                <p class="text-muted text-center">@degName</p>
+
+                <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                        <b>Email</b> <a class="pull-right">@Model.email</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Contact No</b> <a class="pull-right">@Model.contact_no</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Contact Address</b> <a class="pull-right">@Model.contact_address</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.box-body -->
+        </div>
+      
+    </div>
+
+</div>
+

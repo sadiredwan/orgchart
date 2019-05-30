@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OrgoChart | Dashboard</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    @Html.Partial("_TopHeader")
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        @Html.Partial("_main_header")
+        @Html.Partial("_main_sidebar")
+        <!-- Content Wrapper. Contains page content -->
+        @RenderBody()
+        <!-- /.content-wrapper -->
+        @Html.Partial("_main_footer")
+     
+       
+    </div>
+
+
+    
+   @Html.Partial("_BottomFooter")
+
+
+    @RenderSection("masterjs", required: false)
+</body>
+</html>

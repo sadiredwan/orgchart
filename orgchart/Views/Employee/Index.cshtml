@@ -1,0 +1,164 @@
+﻿@using orgchart.Models
+@model List<Employee>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Employee List
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                @{
+                    String message = ViewData["message"].ToString();
+
+                }
+                @if (message != "" && message.StartsWith(Utility.FAILED_MESSAGE))
+                {
+                    message = message.Replace(Utility.FAILED_MESSAGE, "");
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        @Html.Raw(message)
+                    </div>
+                }
+                else if (message != "" && message.StartsWith(Utility.SUCCESS_MESSAGE))
+                {
+                    message = message.Replace(Utility.SUCCESS_MESSAGE, "");
+                    <div class="alert alert-info alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        @Html.Raw(message)
+                    </div>
+                }
+
+                <div class="box">
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                        </div>
+
+                    </div>
+
+                    <div class="box-header">
+                        <a class="btn btn-primary pull-right" href="@Url.Action("create","Employee")"><i class="fa fa-fw fa-plus"></i> Add New </a>
+                        <h3 class="box-title">List of Employee</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Employee Photo</th>
+                                    <th>Employee ID</th>
+                                    <th>Employee Name</th>
+                                    <th>Joining Date</th>
+                                    <th>Company</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    <th>Supervisor</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Employee lst in Model)
+                                {
+                                    String company_name = "";
+                                    String department_name = "";
+                                    String designation_name = "";
+                                    String parent_name = "";
+                                    String photo_path = "";
+                                    if(lst.photo!=null && lst.photo!="")
+                                    {
+                                        photo_path =Utility.GetBaseUrl()+ lst.photo;
+                                    }
+
+                                    if (new DBContext().companies.ToList().FindAll(x => x.id == lst.company_id).Count > 0)
+                                    {
+                                        company_name = new DBContext().companies.Find(lst.company_id).name;
+                                    }
+
+                                    if (new DBContext().departments.ToList().FindAll(x => x.id == lst.department_id).Count > 0)
+                                    {
+                                        department_name = new DBContext().departments.Find(lst.department_id).name;
+                                    }
+
+                                    if (new DBContext().designations.ToList().FindAll(x => x.id == lst.designation_id).Count > 0)
+                                    {
+                                        designation_name = new DBContext().designations.Find(lst.designation_id).name;
+                                    }
+
+                                    if (new DBContext().employees.ToList().FindAll(x => x.id == lst.supervisor_id).Count > 0)
+                                    {
+                                        Employee supervisor = new DBContext().employees.Find(lst.supervisor_id);
+                                        parent_name = supervisor.first_name + " " + supervisor.last_name;
+                                    }
+                                    if (lst.supervisor_id == 0)
+                                    {
+                                        parent_name = "Top Most Parent";
+                                    }
+                                <tr>
+                                    <td><img height="80" width="80" src="@photo_path" /></td>
+                                    <td>@lst.id</td>
+                                    <td>@lst.first_name   @lst.last_name</td>
+                                    <td>@lst.joining_date</td>
+                                    <td>@company_name</td>
+                                    <td>@department_name</td>
+                                    <td>@designation_name</td>
+                                    <td>@parent_name</td>
+
+
+                                    <td>
+                                        <a class="btn btn-default" href="@Url.Action("create","Employee",new {id=lst.id })"><i class="fa fa-fw fa-pencil-square-o"></i></a>
+                                        <button class="btn btn-default" onclick="remove(@lst.id)"><i class="fa fa-fw fa-trash-o"></i></button>
+                                    </td>
+                                </tr>
+                                }
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+@section masterJs
+{
+
+    <script>
+
+        var base_rel= "@Url.Action("delete","Employee")";
+
+  $(function () {
+      $('#example2').DataTable({
+          'paging': true,
+          'lengthChange': true,
+          'searching': true,
+          'ordering': true,
+          'info': true,
+          'autoWidth': true
+      })
+  })
+
+  function remove(obj)
+  {
+      var r = confirm("Are you Sure ,you want to delete this?");
+      if (r == true) {
+          window.location.href = base_rel + "?id=" + obj;
+      } else {
+          txt = "You pressed Cancel!";
+      }
+
+
+  }
+
+    </script>
+}

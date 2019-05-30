@@ -1,0 +1,131 @@
+﻿@using orgchart.Models
+@model List<Employee>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Employees
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                @{
+                    String message = ViewData["message"].ToString();
+
+                }
+                @if (message != "" && message.StartsWith(Utility.FAILED_MESSAGE))
+                {
+                    message = message.Replace(Utility.FAILED_MESSAGE, "");
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        @Html.Raw(message)
+                    </div>
+                }
+                else if (message != "" && message.StartsWith(Utility.SUCCESS_MESSAGE))
+                {
+                    message = message.Replace(Utility.SUCCESS_MESSAGE, "");
+                    <div class="alert alert-info alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        @Html.Raw(message)
+                    </div>
+                }
+
+                <div class="box">
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                        </div>
+
+                    </div>
+
+                    <div class="box-header">
+                        <h3 class="box-title">List of Employee</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Employee Name</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    @*<th>Action</th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Employee lst in Model)
+                                {
+                                    String department_name = "";
+                                    String designation_name = "";
+                                    if (new DBContext().departments.ToList().FindAll(x => x.id == lst.department_id).Count > 0)
+                                    {
+                                        department_name = new DBContext().departments.Find(lst.department_id).name;
+                                    }
+
+                                    if (new DBContext().designations.ToList().FindAll(x => x.id == lst.designation_id).Count > 0)
+                                    {
+                                        designation_name = new DBContext().designations.Find(lst.designation_id).name;
+                                    }
+
+                                    <tr>
+                                        <td>@lst.id</td>
+                                        <td>@lst.first_name   @lst.last_name</td>
+                                        <td>@department_name</td>
+                                        <td>@designation_name</td>
+
+                                        <td>
+                                            <a class="btn btn-primary" href="@Url.Action("assign","EmployeeUser",new {empID=lst.id })"><i class="fa fa-fw fa-plus"></i> Assign </a>
+                                        </td>
+                                    </tr>
+                                }
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+@section masterJs
+{
+
+    <script>
+
+        var base_rel= "@Url.Action("delete","Employee")";
+
+  $(function () {
+      $('#example2').DataTable({
+          'paging': true,
+          'lengthChange': true,
+          'searching': true,
+          'ordering': true,
+          'info': true,
+          'autoWidth': true
+      })
+  })
+
+  function remove(obj)
+  {
+      var r = confirm("Are you Sure ,you want to delete this?");
+      if (r == true) {
+          window.location.href = base_rel + "?id=" + obj;
+      } else {
+          txt = "You pressed Cancel!";
+      }
+
+
+  }
+
+    </script>
+}

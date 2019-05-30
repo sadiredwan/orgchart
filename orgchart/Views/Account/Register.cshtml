@@ -1,0 +1,73 @@
+﻿@model orgchart.Models.User
+
+@{
+    ViewBag.Title = ViewBag.Title;
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+    @{
+        String message = ViewData["message"].ToString();
+
+    }
+    @if (message != "" && message.StartsWith(Utility.FAILED_MESSAGE))
+    {
+        message = message.Replace(Utility.FAILED_MESSAGE, "");
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @Html.Raw(message)
+        </div>
+    }
+    else if (message != "" && message.StartsWith(Utility.SUCCESS_MESSAGE))
+    {
+        message = message.Replace(Utility.SUCCESS_MESSAGE, "");
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @Html.Raw(message)
+        </div>
+    }
+    </div>
+
+</div>
+<div class="login-box-body">
+    <p class="login-box-msg">Registration</p>
+   
+
+
+
+    @using (Html.BeginForm("RegisterStore", HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString(), FormMethod.Post, new { id = "form", data_toggle = "validator", enctype = "multipart/form-data" }))
+    {
+        <div class="form-group has-feedback">
+            <input type="text" name="Company_Name" value="@Model.Company_Name" class="form-control" placeholder="Company Name">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="email" name="email" value="@Model.email" class="form-control" placeholder="Email">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="text" name="first_name" value="@Model.first_name" class="form-control" placeholder="first_name">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="text" name="last_name" value="@Model.last_name" class="form-control" placeholder="last_name">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="password" class="form-control" name="password" value="@Model.password" placeholder="Password">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="password" class="form-control" name="confirm_password" value="@Model.confirm_password" placeholder="Confirm Password">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+            </div>
+            <!-- /.col -->
+        </div>
+    }
+    <a href="@Url.Action("login","account")" class="text-center">Login Back</a>
+</div>
