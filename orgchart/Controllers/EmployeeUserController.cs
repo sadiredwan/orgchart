@@ -128,18 +128,16 @@ namespace orgchart.Controllers
                 return RedirectToAction("index");
             }
 
+            else
+            {
+                string errors = errorstate.errors(ModelState);
+                //Set temp data for wrong credentials
+                TempData["message"] = Utility.FAILED_MESSAGE + "" + errors;
 
-            //else
-            //{
-            //    string errors = errorstate.errors(ModelState);
-            //    //Set temp data for wrong credentials
-            //    TempData["message"] = Utility.FAILED_MESSAGE + "" + errors;
-
-            //    String param_id = euViewModel.VM_EMPLOYEE.id.ToString();
-            //    //redirect back to assign page 
-            //    return RedirectToAction("assign", new { empID = param_id });
-            //}
-            return RedirectToAction("index");
+                String param_id = euViewModel.VM_EMPLOYEEUSER.employee_id.ToString();
+                //redirect back to assign page 
+                return RedirectToAction("assign", new { empID = param_id });
+            }
         }
     }
 }
